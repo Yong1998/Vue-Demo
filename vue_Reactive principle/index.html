@@ -1,0 +1,69 @@
+<!--
+ * @Author: zwy007
+ * @Date: 2021-03-24 10:46:47
+ * @LastEditors: zwy007
+ * @Description: 页面描述：模拟实现vue响应式
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟实现vue响应式</title>
+    <script src="./Dep.js"></script>
+    <script src="./Watcher.js"></script>
+    <script src="./Compile.js"></script>
+    <script src="./Observer.js"></script>
+    <script src="./MVue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h3>嵌套节点</h3>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+        <h3>差值表达式</h3>
+            <p>{{ person.name }} -- {{person.age}}</p>
+            <p>{{person.sex}}</p>
+            <p>{{msg}}</p>
+        <h3>输入框实现双向数据绑定</h3>
+            <input type="text" v-model="msg"/>
+        <h3>v-指令属性</h3>
+            <div v-text="textstr"></div>
+            <div v-html="htmlstr"></div>
+        <h3>bind:指令 :指令属性</h3>
+            <div bind:style="stylecolor">bind: -> color: red</div>
+            <div :style="stylecolor"> : -> color: red</div>
+        <h3>v-on:click指令</h3>
+            <button v-on:click="handleClick">on按钮</button>
+            <button @click="handleClick">@按钮</button>
+    </div>
+    <script>
+        var vm = new MVue({
+            el: '#app',
+            data() {
+                return {
+                    person: {
+                        name: '某某某',
+                        age: 20,
+                        sex: '男'
+                    },
+                    msg: "实现响应式",
+                    textstr: 'v-text指令内容',
+                    htmlstr: 'v-html指令内容',
+                    stylecolor: 'color: red; fontsize:22px;'
+                }
+            },
+            methods: {
+                handleClick(e) {
+                    console.log('实现了监听点击事件')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

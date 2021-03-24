@@ -1,0 +1,77 @@
+<!--
+ * @Author: zwy007
+ * @Date: 2021-03-23 17:36:03
+ * @LastEditors: zwy007
+ * @Description: 页面描述：简易双向数据绑定
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model='name'/>
+    </div>
+    <script>
+        let data = {
+            name: '双向绑定'
+        }
+        Object.keys(data).forEach((key) => {
+            defineReactive(data, key, data[key])
+        })
+
+        /*
+         * 将每个属性转换为setter/getter
+        */
+        function defineReactive(obj, key, value) {
+            Object.defineProperty(obj, key, {
+                //enumerable: true,
+                //configurable: false,
+                get() {
+                    return value
+                },
+                set: (newVal) => {
+                    if(value === newVal) {
+                        return
+                    }
+                    value = newVal
+                    compile()
+
+                }
+            })
+        }
+        /**
+         * 指令分析-并赋值
+        */
+        function compile () {
+            let app = document.querySelector('#app')
+            // 获取当前父节点下的所有子节点
+            const childNodes = app.childNodes
+            childNodes.forEach((node) => {
+                if(node.nodeType === 1) {
+                    // 元素节点
+                    const attrs = node.attributes
+                    Array.from(attrs).forEach(attr => {
+                        let attrValue = attr.nodeValue
+                        let attrName = attr.nodeName
+                        if(attrName === 'v-model') {
+                            node.value = data[attrValue]
+                            // 监听input事件-将输入值赋值给model
+                            node.addEventListener('input', (e) => {
+                                data[attrValue] = e.target.value
+                            })
+                        }
+                    })
+                } else if(node.nodeType === 3) {
+                    // 文本节点
+                }
+            })
+        }
+        compile()
+    </script>
+</body>
+</html>

@@ -22,7 +22,7 @@
     <div id="app">
         <h3>嵌套节点</h3>
         <ul>
-            <li>1</li>
+            <li>{{ msg }}</li>
             <li>2</li>
             <li>3</li>
         </ul>
@@ -39,8 +39,8 @@
             <div bind:style="stylecolor">bind: -> color: red</div>
             <div :style="stylecolor"> : -> color: red</div>
         <h3>v-on:click指令</h3>
-            <button v-on:click="handleClick">on按钮</button>
-            <button @click="handleClick">@按钮</button>
+            <button v-on:click="handleClick">on按钮改变msg</button>
+            <button @click="handleClick">@按钮改变msg</button>
     </div>
     <script>
         var vm = new MVue({
@@ -61,6 +61,9 @@
             methods: {
                 handleClick(e) {
                     console.log('实现了监听点击事件')
+                    this.msg = '点击按钮改变了msg值'
+                    this.stylecolor='color: #333; fontsize:22px;'
+                    this.person.name='color: #333; fontsize:22px;'
                 }
             }
         })

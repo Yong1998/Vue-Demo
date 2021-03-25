@@ -38,7 +38,7 @@ const compileUtil = {
 
 
     /**
-     * 获取{{}}里面的值
+     * 获取{{}}里面的key
      * @param {*} key 
      * @param {*} vm 
      * @returns 
@@ -106,6 +106,10 @@ const compileUtil = {
 
     bind(node, key, vm, colonName) {
         const value = this.getValue(key, vm)
+        // 数据 => 视图
+        new Watcher(vm, key, (newVal) => {
+            node[colonName] = newVal
+        })
         node[colonName] = value
     },
 
